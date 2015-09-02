@@ -47,6 +47,9 @@ int main(int argc, char* argv[])
 #include <libtorrent/error_code.hpp>
 #include <libtorrent/torrent_info.hpp>
 
+#include <libtorrent/socket_io.hpp>
+
+
 bool g_bShutdown = false;
 
 void finish(int sig)
@@ -59,8 +62,34 @@ using namespace CoinQ;
 using namespace Coin;
 using namespace std;
 
+
+/**
+namespace libtorrent {
+
+std::string print_endpoint(libtorrent::tcp::endpoint const& ep)
+{
+    using namespace libtorrent;
+    error_code ec;
+    char buf[200];
+    address const& addr = ep.address();
+#if TORRENT_USE_IPV6
+    if (addr.is_v6())
+        snprintf(buf, sizeof(buf), "[%s]:%d", addr.to_string(ec).c_str(), ep.port());
+    else
+#endif
+        snprintf(buf, sizeof(buf), "%s:%d", addr.to_string(ec).c_str(), ep.port());
+    return buf;
+}
+
+}
+*/
+
 int main(int argc, char* argv[])
 {
+
+    libtorrent::print_endpoint(boost::asio::ip::tcp::endpoint());
+
+
 
     std::cerr << "here 1" << std::endl;
 

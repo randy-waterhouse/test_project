@@ -32,7 +32,7 @@ unix:!macx {
     INCLUDEPATH += $$LIBTORRENT_LOCAL_BUILD/include
 
     # SHARED ==============================
-    LIBS += -L$$LIBTORRENT_LOCAL_BUILD/lib -ltorrent-rasterbar
+    LIBS += -L$$LIBTORRENT_LOCAL_BUILD/lib -ltorrent-rasterbar # -ltorrent-rasterbar
     DEFINES += TORRENT_DISABLE_LOGGING
     DEFINES += TORRENT_USE_OPENSSL
     DEFINES += BOOST_ASIO_HASH_MAP_BUCKETS=1021
@@ -54,7 +54,7 @@ unix:!macx {
     #}
 }
 
-# openssl:
+## openssl:
 INCLUDEPATH += /usr/include/openssl
 
 LIBS += \
