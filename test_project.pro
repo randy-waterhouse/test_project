@@ -27,42 +27,51 @@ LIBS += -L$$MSIGNA_SYSROOT/lib \
 
 unix:!macx {
 
-    INCLUDEPATH += /usr/local/include
-    LIBS += -L/usr/local/lib -ltorrent-rasterbar
+    LIBTORRENT_LOCAL_BUILD = /home/bedeho/JoyStream/Development/libs/libtorrent-build
 
+    INCLUDEPATH += $$LIBTORRENT_LOCAL_BUILD/include
+
+    # SHARED ==============================
+    LIBS += -L$$LIBTORRENT_LOCAL_BUILD/lib -ltorrent-rasterbar
     DEFINES += TORRENT_DISABLE_LOGGING
     DEFINES += TORRENT_USE_OPENSSL
     DEFINES += BOOST_ASIO_HASH_MAP_BUCKETS=1021
     DEFINES += BOOST_EXCEPTION_DISABLE
     DEFINES += BOOST_ASIO_ENABLE_CANCELIO
     DEFINES += TORRENT_LINKING_SHARED
+    DEFINES += TORRENT_NO_DEPRECATE
 
-    # Linking
-    CONFIG(release, debug|release) {
-        DEFINES += NDEBUG
+    # STATIC ==============================
+    #DEFINES += TORRENT_NO_DEPRECATE
+    #DEFINES += TORRENT_DISABLE_GEO_IP
+    #DEFINES += BOOST_EXCEPTION_DISABLE
+    #DEFINES += BOOST_ASIO_ENABLE_CANCELIO
 
-    } else {
-        DEFINES += TORRENT_DEBUG
-    }
+    #CONFIG(release, debug|release) {
+    #    LIBS += -L$$LIBTORRENT_LOCAL_BUILD/lib -llibtorrent-rasterbar.a
+    #} else {
+    #    LIBS += -L$$LIBTORRENT_LOCAL_BUILD/lib -llibtorrent-rasterbar.a
+    #}
 }
 
-# openssl
-OPENSSL_LOCATION = /usr/local/ssl
+# openssl:
+INCLUDEPATH += /usr/include/openssl
 
-INCLUDEPATH += $$OPENSSL_LOCATION/include
-
-LIBS += -L$$OPENSSL_LOCATION/lib \
+LIBS += \
+        -L/usr/lib/x86_64-linux-gnu \
         -lcrypto \
         -lssl \
         -ldl
 
-# boost
-INCLUDEPATH += /usr/local/include
+# boost:
+INCLUDEPATH += /usr/include
 LIBS += \
-     -L/usr/local/lib \
-     -lboost_thread \
-     -lboost_system \
-     -lboost_filesystem \
-     -lboost_regex \
-     -lpthread \
-     -lz
+        -L/usr/lib/x86_64-linux-gnu \
+        -lboost_thread \
+        -lboost_system \
+        -lboost_chrono \
+        -lboost_random \
+        -lboost_filesystem \
+        -lboost_regex \
+        -lpthread \
+        -lz
