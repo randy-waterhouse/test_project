@@ -9,22 +9,6 @@ QT += core
 
 SOURCES += main.cpp
 
-# mSIGNA
-CONFIG(release, debug|release) {
-    MSIGNA_SYSROOT = /home/kiwigb/bitcoin-dev/mSIGNA-dev/sysroot
-} else {
-    MSIGNA_SYSROOT = /home/kiwigb/bitcoin-dev/mSIGNA-dev/sysroot
-}
-
-INCLUDEPATH += $$MSIGNA_SYSROOT/include
-
-LIBS += -L$$MSIGNA_SYSROOT/lib \
-        #-lCoinDB \
-        -lCoinQ \
-        -lCoinCore \
-        -llogger \
-        -lsysutils
-
 unix:!macx {
 
     LIBTORRENT_LOCAL_BUILD = /home/kiwigb/.local
@@ -53,6 +37,22 @@ unix:!macx {
     #    LIBS += -L$$LIBTORRENT_LOCAL_BUILD/lib -llibtorrent-rasterbar.a
     #}
 }
+
+# mSIGNA
+CONFIG(release, debug|release) {
+    MSIGNA_SYSROOT = /home/kiwigb/bitcoin-dev/mSIGNA-dev/sysroot
+} else {
+    MSIGNA_SYSROOT = /home/kiwigb/bitcoin-dev/mSIGNA-dev/sysroot
+}
+
+INCLUDEPATH += $$MSIGNA_SYSROOT/include
+
+LIBS += -L$$MSIGNA_SYSROOT/lib \
+        #-lCoinDB \
+        -lCoinQ \
+        -lCoinCore \
+        -llogger \
+        -lsysutils
 
 ## openssl:
 INCLUDEPATH += /usr/include/openssl
