@@ -3,9 +3,11 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-CONFIG += c++11
+##CONFIG += c++11
 
 QT += core
+
+QMAKE_CXXFLAGS += -std=c++11 -msse4.2
 
 SOURCES += main.cpp
 
@@ -16,14 +18,14 @@ unix:!macx {
     INCLUDEPATH += $$LIBTORRENT_LOCAL_BUILD/include
 
     # SHARED ==============================
-    LIBS += -L$$LIBTORRENT_LOCAL_BUILD/lib -l:libtorrent-rasterbar.a # -ltorrent-rasterbar
+    LIBS += -L$$LIBTORRENT_LOCAL_BUILD/lib -ltorrent-rasterbar  # -ltorrent-rasterbar
     DEFINES += TORRENT_DISABLE_LOGGING
     DEFINES += TORRENT_USE_OPENSSL
     DEFINES += BOOST_ASIO_HASH_MAP_BUCKETS=1021
     DEFINES += BOOST_EXCEPTION_DISABLE
     DEFINES += BOOST_ASIO_ENABLE_CANCELIO
-##    DEFINES += TORRENT_LINKING_SHARED
-##    DEFINES += TORRENT_NO_DEPRECATE
+    DEFINES += TORRENT_LINKING_SHARED
+#    DEFINES += TORRENT_NO_DEPRECATE
 
     # STATIC ==============================
     #DEFINES += TORRENT_NO_DEPRECATE
@@ -65,13 +67,14 @@ LIBS += \
 
 # boost:
 INCLUDEPATH += /usr/include
-LIBS += \
-        -L/lib64 \
-        -lboost_thread \
-        -lboost_system \
+
+LIBS += -L/lib64\
         -lboost_chrono \
-        -lboost_random \
         -lboost_filesystem \
+        -lboost_program_options \
+        -lboost_random \
         -lboost_regex \
+        -lboost_system \
+        -lboost_thread \
         -lpthread \
         -lz
