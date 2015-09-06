@@ -29,12 +29,12 @@ int main(int argc, char* argv[])
 // All Rights Reserved.
 
 #include <CoinQ/CoinQ_netsync.h>
-#include <CoinQ/CoinQ_coinparams.h>
+//#include <CoinQ/CoinQ_coinparams.h>
 
 #include <CoinCore/CoinNodeData.h>
-#include <CoinCore/MerkleTree.h>
-#include <CoinCore/BloomFilter.h>
-#include <CoinCore/typedefs.h>
+//#include <CoinCore/MerkleTree.h>
+//#include <CoinCore/BloomFilter.h>
+//#include <CoinCore/typedefs.h>
 #include <CoinCore/random.h>
 
 #include <stdutils/stringutils.h>
@@ -42,11 +42,14 @@ int main(int argc, char* argv[])
 #include <logger/logger.h>
 
 #include <signal.h>
+#include <stdio.h>
+#include <execinfo.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include <libtorrent/session.hpp>
 #include <libtorrent/error_code.hpp>
 #include <libtorrent/torrent_info.hpp>
-
 #include <libtorrent/socket_io.hpp>
 
 
@@ -84,12 +87,25 @@ std::string print_endpoint(libtorrent::tcp::endpoint const& ep)
 }
 */
 
+void handler(int sig) {
+  void *array[10];
+  size_t size;
+
+  // get void*'s for all entries on the stack
+  size = backtrace(array, 10);
+
+  // print out all the frames to stderr
+  fprintf(stderr, "Error: signal %d:\n", sig);
+  backtrace_symbols_fd(array, size, STDERR_FILENO);
+  exit(1);
+}
+
+
 int main(int argc, char* argv[])
 {
+    signal(SIGSEGV, handler);   // install stack-trace handler
 
     libtorrent::print_endpoint(boost::asio::ip::tcp::endpoint());
-
-
 
     std::cerr << "here 1" << std::endl;
 
@@ -284,4 +300,3 @@ int main(int argc, char* argv[])
 
     return 0;
 }
-
